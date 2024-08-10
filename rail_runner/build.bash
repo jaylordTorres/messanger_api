@@ -1,1 +1,1 @@
-docker % docker build -t rubyrails:dev .
+docker build -t rubyrails:dev .
