@@ -18,6 +18,16 @@ if ENV["RAILS_ENV"] == "production"
   workers worker_count if worker_count > 1
 end
 
+if Rails.env.development?
+  ssl_bind '0.0.0.0', '3001', {
+    key: 'tmp/ssl/server.key',
+    cert: 'tmp/ssl/server.crt',
+    verify_mode: 'none'
+  }
+end
+
+# Configure SSL
+
 # Specifies the `worker_timeout` threshold that Puma will use to wait before
 # terminating a worker in development environments.
 worker_timeout 3600 if ENV.fetch("RAILS_ENV", "development") == "development"

@@ -1,0 +1,32 @@
+version: '3'
+services:
+  db:
+    image: postgres:13
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_USER: db_user
+      POSTGRES_PASSWORD: strongpasswordlang
+      POSTGRES_DB: messanger_api_dev
+
+  api:
+    build: .
+    command: bash -c "rm -f tmp/pids/server.pid && ./bin/rails server"
+    volumes:
+      - ".:/rails"
+    environment:
+      DB_USER: db_user
+      DB_PASSWORD: strongpasswordlang
+      DB_TEST_NAME: messanger_api_dev
+      DB_NAME: messanger_api_dev
+      DB_HOST: db
+      SECRET_KEY_BASE: 977fa747fe97ec84e04ee6be9363c424c32d92ec94c48aa2f9d0f344a91c4ee73a9f0f945ac471b25144a7330c262bb1c96cfeae71785345358ac05a8fd97378
+      RAILS_ENV: development
+    ports:
+      - "3000:3000"
+      - "3001:3001"
+    depends_on:
+      - db
+
+volumes:
+  db_data:
